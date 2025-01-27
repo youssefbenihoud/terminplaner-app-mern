@@ -23,7 +23,7 @@ Eine Webanwendung zur einfachen Terminplanung zwischen Freunden und Followern mi
 
 1. Repository klonen
 ```bash
-git clone https://github.com/dein-benutzername/terminplaner-app.git
+git clone https://github.com/youssefbenihoud/terminplaner-app.git
 cd terminplaner-app
 ```
 
