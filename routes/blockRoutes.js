@@ -4,14 +4,26 @@ const Block = require('../models/Block');
 
 // Zeitblock erstellen
 router.post('/', async(req, res) => {
-    try{
+    try {
         const blocker = await Block.create(req.body);
+        
+        // Finde und aktualisiere kollidierende Termine
+        await Appointment.updateMany(
+          {
+            $or: [
+              { creator: blocker.user },
+              { participant: blocker.user }
+            ],
+            startTime: { $lt: blocker.endTime },
+            endTime: { $gt: blocker.startTime }
+          },
+          { $set: { status: 'declined' } }
+        );
+    
         res.status(201).json(blocker);
-    } catch ( error){
-        res.status(400).json({
-            message: error.message
-        });
-    }
-})
+      } catch (error) {
+        res.status(400).json({ message: error.message });
+      }
+    });
 
 module.exports = router;
