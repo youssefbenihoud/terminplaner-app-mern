@@ -4,6 +4,12 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 require('dotenv').config()
 
+// Routen einbinden
+const userRoutes = require('./routes/userRoutes');
+const appointmentRoutes = require('./routes/appointmentRoutes');
+const blockRoutes = require('./routes/blockRoutes');
+
+
 // die Express-App initialisieren
 const app = express()
 
@@ -17,10 +23,17 @@ mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log('Mit MongoDB verbunden'))
 .catch(err => console.error('Fehler bei MongoDB-Verbindung:', err))
 
+// Routes verwenden
+app.use('/api/users', userRoutes);
+app.use('/api/appointments', appointmentRoutes);
+app.use('/api/blocks', blockRoutes);
+
 // Grundlegende Route zum Testen
 app.get('/', (req, res) => {
     res.send('Terminplaner Backend funktioniert!')
 })
+
+
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {
