@@ -1,6 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const User = require('../models/User');
+const authMiddleware = require('../middleware/authMiddleware');
 
 // Benutzer erstellen
 router.post('/', async(req, res) => {
@@ -11,6 +12,9 @@ router.post('/', async(req, res) => {
         res.status(400).json({message: error.message});
     }
 });
+
+// 🔒 Alle folgenden Routen benötigen Authentifizierung
+router.use(authMiddleware.protect);
 
 // Benutzer folgen
 router.post('/:userId/follow/:targetId', async (req, res) => {
