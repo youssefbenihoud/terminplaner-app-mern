@@ -8,6 +8,8 @@ require('dotenv').config()
 const userRoutes = require('./routes/userRoutes');
 const appointmentRoutes = require('./routes/appointmentRoutes');
 const blockRoutes = require('./routes/blockRoutes');
+const authRoutes = require('./routes/authRoutes');
+const errorController = require('./controllers/errorController');
 
 
 // die Express-App initialisieren
@@ -17,6 +19,10 @@ const app = express()
 app.use(cors())
 //Sicherstellen, dass Express JSON-Daten verarbeiten kann
 app.use(express.json())
+// Auth-Routen
+app.use('/api/auth', authRoutes);
+// Error-Handling-Middleware (am Ende aller Middlewares)
+app.use(errorController);
 
 //MongoDB-Verbindung
 mongoose.connect(process.env.MONGO_URI)
