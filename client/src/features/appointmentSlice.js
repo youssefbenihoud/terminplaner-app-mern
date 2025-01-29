@@ -30,11 +30,26 @@ const appointmentSlice = createSlice({
         state.status = 'succeeded';
         state.appointments = action.payload;
       })
+      .addCase(createAppointment.fulfilled, (state, action) => {
+        state.appointments.push(action.payload);
+      })
       .addCase(fetchAppointments.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload?.message || 'Fehler beim Laden der Termine';
       });
   }
 });
+
+export const createAppointment = createAsyncThunk(
+  'appointments/create',
+  async (appointmentData, { rejectWithValue }) => {
+    try {
+      const response = await api.post('/appointments', appointmentData);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export default appointmentSlice.reducer;

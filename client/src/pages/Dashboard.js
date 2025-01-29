@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchAppointments } from '../features/appointmentSlice';
 import { fetchBlocks } from '../features/blockSlice';
+import { useState } from 'react';
+import CreateAppointmentModal from '../components/CreateAppointmentModal';
 import AppointmentList from '../components/AppointmentList';
 import BlockList from '../components/BlockList';
 
@@ -20,9 +22,20 @@ const Dashboard = () => {
       <h1>Deine Übersicht</h1>
       
       <section className="dashboard-actions">
-        <button className="btn-primary">+ Neuer Termin</button>
+  <button 
+    className="btn-primary" 
+    onClick={() => setShowAppointmentModal(true)}
+  >
+    + Neuer Termin
+  </button>
         <button className="btn-secondary">+ Zeit blockieren</button>
       </section>
+
+      {showAppointmentModal && (
+  <CreateAppointmentModal 
+    onClose={() => setShowAppointmentModal(false)}
+  />
+)}
 
       <div className="dashboard-content">
         <AppointmentList 
