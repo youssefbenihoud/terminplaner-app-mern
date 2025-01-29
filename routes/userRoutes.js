@@ -35,4 +35,18 @@ router.post('/:userId/follow/:targetId', async (req, res) => {
 
 });
 
+// Such-Endpoint für Benutzer
+router.get('/search', async (req, res) => {
+    try {
+      const { query } = req.query;
+      const users = await User.find({
+        username: { $regex: query, $options: 'i' }
+      }).limit(5);
+      
+      res.json(users);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  });
+
 module.exports = router;

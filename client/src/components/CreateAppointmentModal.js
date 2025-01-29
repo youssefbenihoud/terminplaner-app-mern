@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createAppointment } from '../features/appointmentSlice';
 import DateTimePicker from 'react-datetime-picker';
 import 'react-datetime-picker/dist/DateTimePicker.css';
+import UserSearchInput from './UserSearchInput';
 
 const CreateAppointmentModal = ({ onClose }) => {
   const [participantUsername, setParticipantUsername] = useState('');
@@ -35,11 +36,9 @@ const CreateAppointmentModal = ({ onClose }) => {
         <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Teilnehmer Benutzername:</label>
-            <input
-              type="text"
+            <UserSearchInput
               value={participantUsername}
-              onChange={(e) => setParticipantUsername(e.target.value)}
-              required
+              onChange={setParticipantUsername}
             />
           </div>
 

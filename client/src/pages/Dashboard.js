@@ -9,6 +9,7 @@ import BlockList from '../components/BlockList';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
+  const [showAppointmentModal, setShowAppointmentModal] = useState(false); // Vorübergehend
   const { appointments, status: appointmentsStatus } = useSelector(state => state.appointments);
   const { blocks, status: blocksStatus } = useSelector(state => state.blocks);
 
