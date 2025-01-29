@@ -2,6 +2,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
+const { createServer } = require('http');
+const { Server } = require('socket.io');
 require('dotenv').config()
 
 // Routen einbinden
@@ -42,7 +44,29 @@ app.get('/', (req, res) => {
 
 
 const PORT = process.env.PORT || 5001;
-app.listen(PORT, () => {
-    console.log(`Server läuft auf Port ${PORT}`);
-})
+//app.listen(PORT, () => {
+//    console.log(`Server läuft auf Port ${PORT}`);
+//})
+const httpServer = createServer(app);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:3000" // Frontend-URL
+  }
+});
+
+httpServer.listen(PORT, () => {
+  console.log(`Server läuft auf Port ${PORT}`);
+});
+
+// Socket.io-Logik
+io.on('connection', (socket) => {
+  console.log('Client verbunden:', socket.id);
+  
+  socket.on('subscribe', (userId) => {
+    socket.join(userId); // Raum für Benutzer-ID erstellen
+  });
+});
+
+// Mach io in Routen verfügbar
+app.set('io', io);
 
