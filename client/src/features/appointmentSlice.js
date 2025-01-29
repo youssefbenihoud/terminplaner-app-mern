@@ -13,6 +13,30 @@ export const fetchAppointments = createAsyncThunk(
   }
 );
 
+export const acceptAppointment = createAsyncThunk(
+  'appointments/accept',
+  async (appointmentId, { rejectWithValue }) => {
+    try {
+      const response = await api.put(`/appointments/${appointmentId}/accept`);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const declineAppointment = createAsyncThunk(
+  'appointments/decline',
+  async ({ appointmentId, reason }, { rejectWithValue }) => {
+    try {
+      const response = await api.put(`/appointments/${appointmentId}/decline`, { reason });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 const appointmentSlice = createSlice({
   name: 'appointments',
   initialState: {
@@ -36,6 +60,14 @@ const appointmentSlice = createSlice({
       .addCase(fetchAppointments.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload?.message || 'Fehler beim Laden der Termine';
+      })
+      .addCase(acceptAppointment.fulfilled, (state, action) => {
+        const index = state.appointments.findIndex(a => a._id === action.payload._id);
+        state.appointments[index] = action.payload;
+      })
+      .addCase(declineAppointment.fulfilled, (state, action) => {
+        const index = state.appointments.findIndex(a => a._id === action.payload._id);
+        state.appointments[index] = action.payload;
       });
   }
 });
