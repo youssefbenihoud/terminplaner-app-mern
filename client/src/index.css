@@ -65,3 +65,35 @@ code {
   background: #f44336;
   color: white;
 }
+
+.appointment-card {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.status-badge {
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+}
+
+.status-badge.pending { background: #fff3cd; color: #856404; }
+.status-badge.accepted { background: #d4edda; color: #155724; }
+.status-badge.declined { background: #f8d7da; color: #721c24; }
+
+.decline-reason {
+  color: #721c24;
+  background: #f8d7da;
+  padding: 0.5rem;
+  border-radius: 4px;
+  margin-top: 0.5rem;
+}
+
+.loading-message {
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+}
