@@ -14,6 +14,17 @@ const CreateAppointmentModal = ({ onClose }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Frontend-Check vor dem Absenden
+  if (startTime >= endTime) {
+    alert("Endzeit muss nach Startzeit liegen!");
+    return;
+  }
+
+  if (startTime < new Date()) {
+    alert("Termine müssen in der Zukunft liegen!");
+    return;
+  }
     
     const appointmentData = {
       participantUsername,
