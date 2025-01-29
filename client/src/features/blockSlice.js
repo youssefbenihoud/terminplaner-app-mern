@@ -13,6 +13,18 @@ export const fetchBlocks = createAsyncThunk(
   }
 );
 
+export const createBlock = createAsyncThunk(
+    'blocks/create',
+    async (blockData, { rejectWithValue }) => {
+      try {
+        const response = await api.post('/blocks', blockData);
+        return response.data;
+      } catch (error) {
+        return rejectWithValue(error.response.data);
+      }
+    }
+  );
+
 const blockSlice = createSlice({
   name: 'blocks',
   initialState: {
@@ -28,6 +40,9 @@ const blockSlice = createSlice({
       .addCase(fetchBlocks.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.blocks = action.payload;
+      })
+      .addCase(createBlock.fulfilled, (state, action) => {
+        state.blocks.push(action.payload);
       })
       .addCase(fetchBlocks.rejected, (state, action) => {
         state.status = 'failed';

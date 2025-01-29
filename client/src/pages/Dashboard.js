@@ -6,10 +6,12 @@ import { useState } from 'react';
 import CreateAppointmentModal from '../components/CreateAppointmentModal';
 import AppointmentList from '../components/AppointmentList';
 import BlockList from '../components/BlockList';
+import CreateBlockModal from '../components/CreateBlockModal';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
   const [showAppointmentModal, setShowAppointmentModal] = useState(false); // Vorübergehend
+  const [showBlockModal, setShowBlockModal] = useState(false);
   const { appointments, status: appointmentsStatus } = useSelector(state => state.appointments);
   const { blocks, status: blocksStatus } = useSelector(state => state.blocks);
 
@@ -36,6 +38,16 @@ const Dashboard = () => {
   <CreateAppointmentModal 
     onClose={() => setShowAppointmentModal(false)}
   />
+)}
+
+<button 
+  className="btn-secondary"
+  onClick={() => setShowBlockModal(true)}
+>
+  + Zeit blockieren
+</button>
+{showBlockModal && (
+  <CreateBlockModal onClose={() => setShowBlockModal(false)} />
 )}
 
       <div className="dashboard-content">
