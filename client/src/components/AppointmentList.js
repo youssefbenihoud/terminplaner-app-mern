@@ -7,7 +7,12 @@ const AppointmentList = ({ appointments, loading }) => {
   const dispatch = useDispatch();
 
   if (loading) {
-    return <div className="loading-message">Lade Termine...</div>;
+    return (
+      <div className="loading-indicator">
+        <div className="spinner"></div>
+        <p>Aktualisiere Termine...</p>
+      </div>
+    );
   }
 
   return (

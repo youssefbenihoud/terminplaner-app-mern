@@ -4,9 +4,10 @@ import { fetchAppointments } from '../features/appointmentSlice';
 import { fetchBlocks } from '../features/blockSlice';
 import { useState } from 'react';
 import CreateAppointmentModal from '../components/CreateAppointmentModal';
-import AppointmentList from '../components/AppointmentList';
 import BlockList from '../components/BlockList';
 import CreateBlockModal from '../components/CreateBlockModal';
+import AppointmentList from '../components/AppointmentList';
+import { fetchNotifications } from '../features/notificationSlice';
 
 const Dashboard = () => {
   const dispatch = useDispatch();
@@ -16,10 +17,15 @@ const Dashboard = () => {
   const { blocks, status: blocksStatus } = useSelector(state => state.blocks);
 
   useEffect(() => {
-    dispatch(fetchAppointments());
-    dispatch(fetchBlocks());
+    const interval = setInterval(() => {
+      dispatch(fetchAppointments());
+      dispatch(fetchBlocks());
+      dispatch(fetchNotifications()); // Optional: Auch Benachrichtigungen aktualisieren
+    }, 10000); // Alle 10 Sekunden aktualisieren
+  
+    return () => clearInterval(interval);
   }, [dispatch]);
-
+  
   return (
     <div className="dashboard">
       <h1>Deine Übersicht</h1>
@@ -51,7 +57,7 @@ const Dashboard = () => {
 )}
 
       <div className="dashboard-content">
-        <AppointmentList 
+        <AppointmentList
           appointments={appointments} 
           loading={appointmentsStatus === 'loading'} 
         />

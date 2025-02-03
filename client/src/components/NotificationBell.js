@@ -10,6 +10,12 @@ const NotificationBell = () => {
   const { user } = useSelector(state => state.auth);
 
   useEffect(() => {
+    if (user) {
+      dispatch(fetchNotifications());
+    }
+  }, [user]);
+
+  useEffect(() => {
     const newSocket = io('http://localhost:5000');
     newSocket.emit('subscribe', user?.id);
     
